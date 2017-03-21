@@ -142,6 +142,8 @@ PreparedStatement ps = null;
             rs=ps.executeQuery();
             if(rs.next()){
              JOptionPane.showMessageDialog(null,"UserName and Password is correct");
+             rs.close();
+             ps.close();
              Employee_info s =new Employee_info();
              s.setVisible(true);
             }
@@ -150,6 +152,14 @@ PreparedStatement ps = null;
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
+        }finally{
+                try{
+                rs.close();
+                ps.close();
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                
+                }
         }
     }//GEN-LAST:event_cmd_loginActionPerformed
 

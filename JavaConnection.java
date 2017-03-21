@@ -12,7 +12,7 @@ import java.sql.*;
 import javax.swing.*;
 public class JavaConnection {
     
-    /*Connection conn = null;
+    Connection conn = null;
     public static Connection ConnectDB(){
       try{
           Class.forName("org.sqlite.JDBC");
@@ -23,5 +23,5 @@ public class JavaConnection {
          JOptionPane.showMessageDialog(null, e);
          return null;
       }   
-    }*/
+    }
 }

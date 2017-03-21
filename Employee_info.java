@@ -8,15 +8,61 @@
  *
  * @author Akif
  */
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import net.proteanit.sql.DbUtils;
 public class Employee_info extends javax.swing.JFrame {
 
     /**
      * Creates new form Employee_info
      */
-    public Employee_info() {
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement ps = null;
+    public Employee_info() throws SQLException {
         initComponents();
+        conn = JavaConnection.ConnectDB();
+        UpdateTable();
+        fillcombo();
     }
-
+    private void UpdateTable() {
+        try{
+        String sql = "Select * from Employee_Info ";
+        ps= conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        Employeeinfo_table.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(Exception e){
+         JOptionPane.showMessageDialog(null, e);   
+        }
+        finally{
+                try{
+                rs.close();
+                ps.close();
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                
+                }
+        }
+    }
+    private void fillcombo(){
+        try
+        {
+            String sql = "Select FirstName from Employee_info";
+            ps=conn.prepareStatement(sql);
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+                String name  = rs.getString("FirstName");
+                Name_Combo.addItem(name);
+                
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,18 +72,48 @@ public class Employee_info extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Employeeinfo_table = new javax.swing.JTable();
+        Name_Combo = new javax.swing.JComboBox();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Employeeinfo_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(Employeeinfo_table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(Name_Combo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(Name_Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        Name_Combo.getAccessibleContext().setAccessibleName("Names\n");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -72,11 +148,18 @@ public class Employee_info extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employee_info().setVisible(true);
+                try {
+                    new Employee_info().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Employee_info.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Employeeinfo_table;
+    private javax.swing.JComboBox Name_Combo;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

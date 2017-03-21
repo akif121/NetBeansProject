@@ -22,6 +22,5 @@ public class JavaConnect {
          JOptionPane.showMessageDialog(null, e);
          return null;
       }   
-    }
-    
+    } 
 }
