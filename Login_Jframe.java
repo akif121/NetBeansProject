@@ -9,6 +9,7 @@
  * @author Akif
  */
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.sql.*;
 import javax.swing.*;
 public class Login_Jframe extends javax.swing.JFrame {
@@ -22,6 +23,10 @@ PreparedStatement ps = null;
     public Login_Jframe() {
         initComponents();
         conn = JavaConnection.ConnectDB();
+    }
+    public void close(){//FUNCTION TO CLOSE PREVIOUS WINDOW AFTER OPENING OF NEW ONE **VERY IMPORTANT**
+        WindowEvent win = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(win);
     }
 
     /**
@@ -41,7 +46,7 @@ PreparedStatement ps = null;
         cmd_login = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 18), java.awt.Color.blue)); // NOI18N
         jPanel2.setForeground(new java.awt.Color(0, 51, 204));
@@ -144,8 +149,10 @@ PreparedStatement ps = null;
              JOptionPane.showMessageDialog(null,"UserName and Password is correct");
              rs.close();
              ps.close();
+             this.dispose();//THIS CLOSES THE PREVIOUS WINDOW BEFORE OPENING THE NEW ONE"
              Employee_info s =new Employee_info();
              s.setVisible(true);
+             
             }
             else{
                 JOptionPane.showMessageDialog(null,"UserName and Password is not correct");
