@@ -50,7 +50,7 @@ public class Employee_info extends javax.swing.JFrame {
     private void fillcombo(){
         try
         {
-            String sql = "Select FirstName from Employee_info";
+            String sql = "Select * from Employee_info";
             ps=conn.prepareStatement(sql);
             rs=ps.executeQuery();
             
